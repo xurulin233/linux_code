@@ -1,0 +1,7 @@
+gcc nvme.c -o nvme
+su
+# ./nvme 
+Write operation completed successfully
+Read operation completed successfully
+# cat /dev/nvme0n1 
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
