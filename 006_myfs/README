@@ -1,0 +1,17 @@
+su
+#insmod tinyfs.ko  #安装模块
+#mount -t tinyfs none /mnt  #挂载文件系统
+#chmod 777 /mnt   #修改文件夹权限
+
+
+#cd /mnt
+#echo 1111 > a  #创建a文件，并将1111保存其中
+#mkdir first  #创建文件夹
+#cat a
+1111
+#rm a
+#cat a
+cat: a: No such file or directory
+
+#cd /
+#umount /mnt
