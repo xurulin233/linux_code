@@ -24,3 +24,20 @@ cp ../hello.cpio.gz ~/test1219/linux-3.0.8/scripts/
 
 
 
+修改内核.config 启动参数
+CONFIG_CMDLINE="initrd=addr root=/dev/ram console=ttySAC0,115200 rdinit=hello"
+CONFIG_INITRAMFS_SOURCE="./scripts/hello.cpio.gz"
+
+
+开机会卡在hello world
+
+[14:44:15][    3.123000] 
+[14:44:15][    3.123318] WA2301:ramdisk_execute_command = hello ... 
+[14:44:15][    3.126059] WA2301:Going to init_post ... 
+[14:44:15][    3.130293] Freeing init memory: 468K
+[14:44:15]hello world!!
+
+
+
+
+
