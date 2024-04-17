@@ -6,6 +6,15 @@
 #include<arpa/inet.h>//inet_pton
 #include <fcntl.h> // for open
 #include <unistd.h> // for close
+
+
+typedef struct message_node
+{
+	unsigned short node_id;
+	unsigned short node_len;
+	char buf[128];
+}message_node;
+
 int main()
 {
 	//1、创建一个udp套接字
@@ -23,7 +32,12 @@ int main()
 	//将字符串"192.168.0.110" 转换成32位整形数据 赋值IP地址
 	inet_pton(AF_INET,"127.0.0.1", &dst_addr.sin_addr.s_addr);
 	
-	sendto(sockfd,"hehe",strlen("hehe"),0, \
+	message_node message;
+	message.node_id = htons(0x0001);
+	message.node_len = htons(strlen("hehe"));
+	strcpy(message.buf,"hehe");
+
+	sendto(sockfd,&message,sizeof(message_node),0, \
 	(struct sockaddr *)&dst_addr , sizeof(dst_addr) );
 	
 	//3、关闭套接字
