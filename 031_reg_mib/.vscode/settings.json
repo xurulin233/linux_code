@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "mib_functions.h": "c",
+        "mib_reg.h": "c",
+        "configset.h": "c"
+    }
+}
