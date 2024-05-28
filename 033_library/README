@@ -1,0 +1,4 @@
+$. setenv.sh
+$make V=s
+$export LD_LIBRARY_PATH=~/test1219/linux_code/033_library/lib/common
+
