@@ -8,6 +8,7 @@
 #include <linux/netlink.h>
 #include <linux/net.h>
 #include <net/sock.h>
+#include <mach/gpio.h>
 #include "ecos_gpio.h"
 #include "gpio_event.h"
 
