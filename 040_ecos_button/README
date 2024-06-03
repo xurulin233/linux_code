@@ -1,0 +1,18 @@
+$. setenv.sh
+$make V=s
+#ifconfig lo up
+#cd /lib/modules/3.0.8-FriendlyARM-g1cabec01-dirty/
+#tftp -g -r gpio_mod.ko <IP>
+#insmod /lib/modules/3.0.8-FriendlyARM-g1cabec01-dirty/gpio_mod.ko
+#mknod /dev/gpio c 215 0
+#cd /lib
+#tftp -g -r libecos.so <IP>
+#cd /
+#tftp -g -r configserver <IP>
+#./configserver
+[ 9343.032308] @@@ BTN_UNPRESSED jiffies = 1808518 s_btn_start_press_time = 1808490 0 S  HZ = 200 
+@@@ BTN_PRESSE_DEFAULT
+
+
+
+

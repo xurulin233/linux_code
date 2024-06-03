@@ -1,0 +1,4 @@
+#insmod /lib/modules/3.0.8-FriendlyARM-g1cabec01-dirty/gpio_mod.ko
+#mknod /dev/gpio c 215 0
+#./btnconfig get btn_default
+btn_default status: unpressed
