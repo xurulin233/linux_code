@@ -23,14 +23,15 @@ int ecos_oem_root_init(void)
         return -1;
     }
 
-
     // 
     // register all ecos mibs.
     // 
     ecos_mibs_system_register();            // register ecos_mib_system.c
     
-
-    ecos_oem_database_load(NULL);
+    // 
+    // default ecos database.
+    // 
+    ecos_oem_database_default(NULL);
     return 0;
 }
 

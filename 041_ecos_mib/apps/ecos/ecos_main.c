@@ -116,8 +116,19 @@ void oem_main_loop(void)
 
 void oem_main_free(void)
 {
-    ECosMibCommServerUnregister();
-    g_mib_comm_fd = INVALID_SOCKET;
+    // 
+    // free oem vendor functions.
+    // 
+    ecos_oem_root_free();
+    
+    // 
+    // free config file functions.
+    // 
+    ecos_config_file_free();
+    
+    // free mib register functions.
+    // 
+    ecos_mib_reg_free();
 }
 
 
