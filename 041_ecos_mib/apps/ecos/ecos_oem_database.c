@@ -1,0 +1,12 @@
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include "ecos_oem_database.h"
+#include "ecos_configset.h"
+
+int ecos_oem_database_load(void *arg)
+{
+    strcpy(g_ConfigSet.szProductName,"FishTank");
+    printf("Set its name to FishTank\n");
+    return 0;
+}

@@ -1,0 +1,8 @@
+$. setenv.sh
+$make V=s
+$export LD_LIBRARY_PATH=~/test1219/linux_code/035_ecos_loop/lib/common
+killall configserver
+./apps/ecos/configserver&
+./apps/test/test
+
+
