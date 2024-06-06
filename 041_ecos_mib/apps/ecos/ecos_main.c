@@ -5,6 +5,7 @@
 #include "ecos_macro.h"
 #include "ecos_mib_reg.h"
 #include "ecos_oem_root.h"
+#include "ecos_timer.h"
 
 #define MAIN_LOOP_START     do {
 #define MAIN_LOOP_REPEAT    } while (1);
@@ -12,7 +13,10 @@
 
 void oem_main_init(void)
 {    
-
+    // 
+    // init timer functions.
+    // 
+    ecos_timer_function_init();
     
     // 
     // init mib register functions.
@@ -109,6 +113,11 @@ void oem_main_loop(void)
         }
     }
 
+    // 
+    // deal timers
+    // 
+    ecos_timer_function_loop();
+
     MAIN_LOOP_REPEAT // repeat main loop to start.
 
 }
@@ -116,6 +125,7 @@ void oem_main_loop(void)
 
 void oem_main_free(void)
 {
+    printf("oem_main_free\n");
     // 
     // free oem vendor functions.
     // 
@@ -126,6 +136,11 @@ void oem_main_free(void)
     // 
     ecos_config_file_free();
     
+    // 
+    // free timer functions.
+    // 
+    ecos_timer_function_free();
+
     // free mib register functions.
     // 
     ecos_mib_reg_free();

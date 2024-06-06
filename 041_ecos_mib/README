@@ -6,3 +6,7 @@ killall configserver
 ./apps/test/test
 
 
+
+get ethernt port status
+由于原始套接字允许直接访问底层协议，并可能被用于伪造数据包，所以它通常需要特殊权限（如root权限）。
+

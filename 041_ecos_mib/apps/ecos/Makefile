@@ -15,6 +15,7 @@ SOURCE = $(ECOS_CORE) $(ECOS_APP)  $(ECOS_MIB)
 
 ECOS_CORE = ecos_shash32.c	\
 	ecos_config_file.c	\
+	ecos_timer.c
 
 ECOS_APP  = ecos_main.c		\
 	ecos_mib_reg.c		\

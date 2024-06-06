@@ -12,7 +12,7 @@ ConfigSet_t g_ConfigSetBackup;          // backup last configs.
 
 int ecos_oem_root_init(void)
 {
-    
+
     // 
     // init mib parser api for client.
     // 
@@ -32,6 +32,9 @@ int ecos_oem_root_init(void)
     // default ecos database.
     // 
     ecos_oem_database_default(NULL);
+
+    ecos_mib_system_init();         // init ecos_mib_system.c
+
     return 0;
 }
 
