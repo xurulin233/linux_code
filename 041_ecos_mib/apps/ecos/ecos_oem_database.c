@@ -7,6 +7,6 @@
 int ecos_oem_database_default(void *arg)
 {
     strcpy(g_ConfigSet.szProductName,"FishTank");
-    printf("Set its name to FishTank\n");
+    printf("database_default Set szProductName to FishTank\n");
     return 0;
 }

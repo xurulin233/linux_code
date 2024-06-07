@@ -198,4 +198,22 @@ static __inline ExchangeResult_t ConfigReadString(
 		);
 }
 
+
+static __inline ExchangeResult_t ConfigWriteString(
+	uint8_t		uchIndex,
+	uint32_t	ulMIB,
+	const char	*cszString
+	)
+{
+	return ConfigExchange(
+		CONF_REQUEST_WRITE,
+		uchIndex,
+		ulMIB,
+		(uint8_t*)cszString,
+		strlen(cszString)+1,
+		0
+		);
+}
+
+
 #endif //__ECOS_MIB_COMM_H__

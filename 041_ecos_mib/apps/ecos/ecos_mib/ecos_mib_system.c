@@ -11,6 +11,7 @@
 #include "ecos_configset.h"
 #include "ecos_addr_rule.h"
 #include "ecos_timer.h"
+#include "ecos_configset.h"
 
 #define LINK_DEV "ens33"
 
@@ -46,7 +47,9 @@ static void ecos_link_integrity_monitor(void *arg)
         }
 }
 
-
+/****************************************************************************
+ *  mib functions
+ ****************************************************************************/
 ECOS_PARSER static ExchangeResult_t ParserProductName(MIB_PARSER_PARAMETERS)
 {
     switch (Request)
@@ -55,23 +58,46 @@ ECOS_PARSER static ExchangeResult_t ParserProductName(MIB_PARSER_PARAMETERS)
 
             return CONF_RESULT_OK;
 
-        case CONF_REQUEST_READ:
-            // 
-            // setting response data value, offset response.
-            // 
-            printf("read ParserProductName\n");
-            memcpy(*ppResp, pCfgField, ulCfgSize);
-            (*ppResp) += ulCfgSize;
-            return CONF_RESULT_OK;
+	case CONF_REQUEST_READ:
+        memcpy((char *)*ppResp, (char *)pCfgField, ulCfgSize);
+        (*ppResp) += ulCfgSize;
+        return CONF_RESULT_OK;
 
-        case CONF_REQUEST_WRITE:
-
-             return CONF_RESULT_OK;
-
+    case CONF_REQUEST_WRITE:
+            if (usRequestLength > ulCfgSize)
+                {
+                    return CONF_RESULT_DATA_TOO_LONG;
+                }
+                pReq[ulCfgSize-1] = '\0';
+                if (0 == memcmp((char *)pReq, (char *)pCfgField, usRequestLength))
+                {
+                    return CONF_RESULT_OK;
+                }
+                
+                memcpy((char *)pCfgField, (char *)pReq, usRequestLength);
+                ecos_mib_root_exec(NULL);
+                return CONF_RESULT_OK;
         default:
             return CONF_RESULT_REQUEST_NOT_HANDLE;
     }
     return CONF_RESULT_REQUEST_NOT_HANDLE;
+}
+
+/****************************************************************************
+ *  extern functions
+ ****************************************************************************/
+
+void ecos_mib_system_exec(void *p_arg)
+{
+    //
+    // when ap name changed,upgrade wins.
+    //
+    ECOS_EXEC_START(exec_memcmp, g_ConfigSet.szProductName)
+    {
+        printf("szProductName is changed %s\n",g_ConfigSet.szProductName);
+    }
+    ECOS_EXEC_END(g_ConfigSet.szProductName)
+
 }
 
 

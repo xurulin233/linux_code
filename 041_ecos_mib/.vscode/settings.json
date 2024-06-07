@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ecos_mib_functions.h": "c",
+        "ecos_configset.h": "c"
+    }
+}

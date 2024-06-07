@@ -18,4 +18,13 @@ void ecos_mib_system_init(void);
 
 void ecos_mibs_system_register(void);
 
+/****************************************************************************
+ *
+ * DESCRIPTION:
+ *  extern all mib exec functions.
+ *
+ ****************************************************************************/
+
+void ecos_mib_system_exec(void *p_arg);
+
 #endif // __ECOS_MIB_FUNCTIONS_H__
