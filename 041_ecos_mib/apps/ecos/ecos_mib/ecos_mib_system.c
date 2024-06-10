@@ -12,6 +12,7 @@
 #include "ecos_addr_rule.h"
 #include "ecos_timer.h"
 #include "ecos_configset.h"
+#include "ecos_oem_database.h"
 
 #define LINK_DEV "ens33"
 
@@ -109,8 +110,8 @@ void ecos_mibs_system_register(void)
         MIB_PRODUCT_NAME, "ProductName", ECOS_CF_STRING, 
         ECOS_REG_NODE(g_ConfigSet.szProductName), 
         ParserProductName, ecos_addr_rule_default, 
-        NULL, NULL, 
-        ECOS_PERMISSION_ALL, ECOS_EXT_NONE
+        NULL, ecos_load_common, 
+        ECOS_PERMISSION_ALL, ECOS_EXT_DB_SAVE
     );
 
 }

@@ -131,7 +131,8 @@ int ecos_oem_root_init(void)
     // 
     // default ecos database.
     // 
-    ecos_oem_database_default(NULL);
+
+    ecos_config_file_load(ECOS_CONFIG_FILE);
 
     ecos_mib_system_init();         // init ecos_mib_system.c
 
