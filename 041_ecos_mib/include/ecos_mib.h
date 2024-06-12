@@ -20,7 +20,19 @@ typedef enum MIBSystem_t
 } MIBSystem_t;
 
 
-
+typedef enum MIBNetwork_t
+{
+    MIB_NETWORK_FIRST = MIB_WG302_BASE + MIB_RANGE_START(1),
+    MIB_SYS_MAC_ADDRESS = MIB_NETWORK_FIRST,
+    MIB_NET_TYPE,
+    MIB_NET_IP,
+    MIB_NET_MASK,
+    MIB_NET_GATEWAY,
+    MIB_NET_DNS_PRIMARY,
+    MIB_NET_DNS_SECONDARY,
+    
+    MIB_NETWORK_LAST, 
+} MIBNetwork_t;
 
 
 

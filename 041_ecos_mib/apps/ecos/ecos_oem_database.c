@@ -25,9 +25,19 @@ void ecos_load_common(ecos_config_file_t *config_file, void *arg)
     //
     if (real_addr != NULL)
     {
-        memcpy(real_addr, config_file->pdata, config_file->len);
+        if ((mib_node->type == ECOS_CF_IP) && (config_file->len == sizeof(uint32_t)))
+        {
+            uint32_t ipaddr = ntohl(*(uint32_t *)config_file->pdata);
+            memcpy(real_addr, &ipaddr, config_file->len);
+        }
+        else
+        {
+            memcpy(real_addr, config_file->pdata, config_file->len);
+        }
+
+        return;
     }
-    
+
     return;
 }
 

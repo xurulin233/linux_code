@@ -4,6 +4,7 @@
 #include "ecos_configset.h"
 #include "ecos_mib_functions.h"
 #include "ecos_timer.h"
+#include "ecos_string.h"
 /****************************************************************************
  *  define top struct and node.
  ****************************************************************************/
@@ -65,6 +66,7 @@ static void root_config(void *arg)
      * setting: setting all function modules.
      **************************************************/
     ecos_mib_system_exec(NULL);     // exec ecos_mib_system.c
+    ecos_mib_net_exec(NULL);        // exec ecos_mib_net.c
 
     /**************************************************
      * finish: backup new configset, set exec flag.
@@ -127,15 +129,22 @@ int ecos_oem_root_init(void)
     // register all ecos mibs.
     // 
     ecos_mibs_system_register();            // register ecos_mib_system.c
-    
+    ecos_mibs_net_register();               // register ecos_mib_net.c
+
     // 
     // default ecos database.
     // 
 
     ecos_config_file_load(ECOS_CONFIG_FILE);
 
-    ecos_mib_system_init();         // init ecos_mib_system.c
+    {
+    char StaticIP[16]  = "192.168.70.185";
+    Str2IP(&(g_ConfigSet.IPSets.inIPAddress), StaticIP);
+    }
 
+    ecos_mib_system_init();         // init ecos_mib_system.c
+    ecos_mib_net_init();            // init ecos_mib_net.c
+    
     ecos_mib_root_exec(NULL);
 
     return 0;

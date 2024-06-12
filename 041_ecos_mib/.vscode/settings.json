@@ -2,6 +2,11 @@
     "files.associations": {
         "ecos_mib_functions.h": "c",
         "ecos_configset.h": "c",
-        "ecos_addr_rule.h": "c"
+        "ecos_addr_rule.h": "c",
+        "ecos_dev_api.h": "c",
+        "ecos_def.h": "c",
+        "ecos_oem_mib_parser.h": "c",
+        "ecos_string.h": "c",
+        "ecos_oem_root.h": "c"
     }
 }

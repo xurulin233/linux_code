@@ -22,10 +22,12 @@ ECOS_APP  = ecos_main.c		\
 	ecos_oem_mib_parser.c	\
 	ecos_oem_root.c		\
 	ecos_oem_database.c	\
-	ecos_addr_rule.c	
+	ecos_addr_rule.c	\
+	ecos_dev_api.c
 
 
 ECOS_MIB = ecos_mib_system.c	\
+			ecos_mib_net.c
 
 
 ####################################################################################################

@@ -10,7 +10,8 @@ CFLAGS += -fPIC
 
 SOURCE = \
 	ecos_mib_comm.c \
-	ecos_sockv4.c
+	ecos_sockv4.c \
+	ecos_string.c
 
 ####################################################################################################
 .PHONY: clean install

@@ -8,6 +8,7 @@
  *
  ****************************************************************************/
 void ecos_mib_system_init(void);
+void ecos_mib_net_init(void);
 
 /****************************************************************************
  *
@@ -17,6 +18,7 @@ void ecos_mib_system_init(void);
  ****************************************************************************/
 
 void ecos_mibs_system_register(void);
+void ecos_mibs_net_register(void);
 
 /****************************************************************************
  *
@@ -26,5 +28,6 @@ void ecos_mibs_system_register(void);
  ****************************************************************************/
 
 void ecos_mib_system_exec(void *p_arg);
+void ecos_mib_net_exec(void *p_arg);
 
 #endif // __ECOS_MIB_FUNCTIONS_H__

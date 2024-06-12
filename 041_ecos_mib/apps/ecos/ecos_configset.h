@@ -12,20 +12,15 @@ typedef struct ConfigIPSet_t
     in_addr_t           inGateway;                          // MIB_NET_GATEWAY
     in_addr_t           inDnsPrimary;                       // MIB_NET_DNS_PRIMARY
     in_addr_t           inDnsSecondary;                     // MIB_NET_DNS_SECONDARY
-    // IP range of dhcp server
-    in_addr_t           inIPRangeStart;                     // MIB_IP_RANGE_START
-    in_addr_t           inIPRangeEnd;                       // MIB_IP_RANGE_END
-    in_addr_t           inIPRangeNetmask;                   // MIB_IP_RANGE_NETMASK
-    in_addr_t           inIPRangeGateway;                   // MIB_IP_RANGE_GATEWAY
 } ConfigIPSet_t;
 
 
 typedef struct ConfigSet_t
 {
     // system
-    uint32_t            ulProduct;                          // MIB_PRODUCT
+    uint32_t            ulProduct;                    // MIB_PRODUCT
     char                szProductName[32];            // MIB_PRODUCT_NAME
-
+    ConfigIPSet_t       IPSets;                        //MIB_NAT_ENABLE
 } ConfigSet_t;
 
 extern ConfigSet_t g_ConfigSet;
