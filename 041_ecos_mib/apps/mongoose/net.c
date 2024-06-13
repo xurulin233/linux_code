@@ -65,6 +65,14 @@ struct dhcp {
 
 static struct dhcp s_dhcp = {true, 10, 250, 86400};
 
+// static configuration
+struct staticip {
+  bool enabled;
+  uint8_t ipaddress;
+};
+
+static struct staticip s_staticip = {true, 185};
+
 // Mocked events
 static struct event s_events[] = {
     {.type = 0, .prio = 0, .text = "here goes event 1"},
@@ -269,6 +277,28 @@ static void handle_dhcp_get(struct mg_connection *c) {
                 MG_ESC("lease_time_sec"), s_dhcp.lease_time_sec);
 }
 
+static void handle_staticip_set(struct mg_connection *c, struct mg_str body) {
+  struct staticip staticip  ;
+  memset(&staticip, 0, sizeof(staticip));
+  mg_json_get_bool(body, "$.enabled", &staticip.enabled);
+  staticip.ipaddress = mg_json_get_long(body, "$.ipaddress", 0);
+  s_staticip = staticip;  // Save to the device flash, too
+  bool ok = true;
+  mg_http_reply(c, 200, s_json_header,
+                "{%m:%s,%m:%m}",                          //
+                MG_ESC("status"), ok ? "true" : "false",  //
+                MG_ESC("message"), MG_ESC(ok ? "Success" : "Failed"));
+}
+
+
+static void handle_staticip_get(struct mg_connection *c) {
+  mg_http_reply(c, 200, s_json_header, "{%m:%s,%m:%hhu}",  //
+                MG_ESC("enabled"), s_staticip.enabled ? "true" : "false",     //
+                MG_ESC("ipaddress"), s_staticip.ipaddress);
+}
+
+
+
 // HTTP request handler function
 static void fn(struct mg_connection *c, int ev, void *ev_data) {
   if (ev == MG_EV_ACCEPT) {
@@ -300,6 +330,10 @@ static void fn(struct mg_connection *c, int ev, void *ev_data) {
       handle_dhcp_get(c);
     } else if (mg_http_match_uri(hm, "/api/dhcp/set")) {
       handle_dhcp_set(c, hm->body);
+    } else if (mg_http_match_uri(hm, "/api/staticip/get")) {
+      handle_staticip_get(c);
+    } else if (mg_http_match_uri(hm, "/api/staticip/set")) {
+      handle_staticip_set(c, hm->body);
     } else {
       struct mg_http_serve_opts opts;
       memset(&opts, 0, sizeof(opts));

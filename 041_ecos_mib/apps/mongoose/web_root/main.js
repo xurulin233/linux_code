@@ -48,6 +48,7 @@ function Sidebar({url, show}) {
       <${NavLink} title="Firewall" icon=${Icons.shield} href="/firewall" url=${url} />
       <${NavLink} title="DHCP" icon=${Icons.barsdown} href="/dhcp" url=${url} />
       <${NavLink} title="Administration" icon=${Icons.settings} href="/admin" url=${url} />
+      <${NavLink} title="StaticIP"  href="/staticip" url=${url} />
     <//>
   <//>
 <//>`;
@@ -179,6 +180,7 @@ function Main({}) {
 <//>`;
 };
 
+
 function Devices({}) {
   const [devices, setDevices] = useState(null);
   const refresh = () => fetch('api/devices/get')
@@ -229,6 +231,42 @@ return html`
     </div>
   </div>`;
 };
+
+function StaticIp({}) {
+  const [staticip, setStaticip] = useState(null);
+  const [saveResult, setSaveResult] = useState(null);
+  const refresh = () => fetch('api/staticip/get')
+    .then(r => r.json())
+    .then(r => setStaticip(r));
+  useEffect(refresh, []);
+
+  const mksetfn = k => (v => setStaticip(x => Object.assign({}, x, {[k]: v}))); 
+  const onsave = ev => fetch('api/staticip/set', {
+    method: 'post', body: JSON.stringify(staticip) 
+  }).then(r => r.json())
+    .then(r => setSaveResult(r))
+    .then(refresh);
+
+  if (!staticip) return '';
+  return html`
+<div class="m-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+
+  <div class="py-1 divide-y border rounded bg-white flex flex-col">
+    <div class="font-light uppercase flex items-center text-gray-600 px-4 py-2">
+     staticIP Settings
+    <//>
+    <div class="py-2 px-5 flex-1 flex flex-col relative">
+      ${saveResult && html`<${Notification} ok=${saveResult.status}
+        text=${saveResult.message} close=${() => setSaveResult(null)} />`}
+
+      <${Setting} title="Enabled" value=${staticip.enabled} setfn=${mksetfn('enabled')} type="switch" />
+      <${Setting} title="IPAddress" value=${staticip.ipaddress} setfn=${mksetfn('ipaddress')} type="number" addonLeft="192.168.0." disabled=${!staticip.enabled} />
+      <div class="mb-1 mt-3 flex place-content-end"><${Button} icon=${Icons.save} onclick=${onsave} title="Save Settings" /><//>
+    <//>
+  <//>
+<//>`;  
+}
+
 
 function DHCP({}) {
   const [dhcp, setDhcp] = useState(null);
@@ -283,6 +321,7 @@ const App = function({}) {
   if (loading) return '';  // Show blank page on initial load
   if (!user) return html`<${Login} loginFn=${login} logoIcon=${Logo} title="WiFi Router Login" tipText="To login, use: admin/admin, user1/user1, user2/user2" />`; // If not logged in, show login screen
 
+
   return html`
 <div class="min-h-screen bg-slate-100">
   <${Sidebar} url=${url} show=${showSidebar} />
@@ -291,6 +330,7 @@ const App = function({}) {
     <${Router} onChange=${ev => setUrl(ev.url)} history=${History.createHashHistory()} >
       <${Main} default=${true} />
       <${DHCP} path="dhcp" />
+      <${StaticIp} path="staticip" />
       <${Devices} path="devices" />
     <//>
   <//>
