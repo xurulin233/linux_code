@@ -68,10 +68,10 @@ static struct dhcp s_dhcp = {true, 10, 250, 86400};
 // static configuration
 struct staticip {
   bool enabled;
-  uint8_t ipaddress;
+  char ipaddress[16];
 };
 
-static struct staticip s_staticip = {true, 185};
+static struct staticip s_staticip = {true, "192.168.70.185"};
 
 // Mocked events
 static struct event s_events[] = {
@@ -278,21 +278,24 @@ static void handle_dhcp_get(struct mg_connection *c) {
 }
 
 static void handle_staticip_set(struct mg_connection *c, struct mg_str body) {
-  struct staticip staticip  ;
-  memset(&staticip, 0, sizeof(staticip));
-  mg_json_get_bool(body, "$.enabled", &staticip.enabled);
-  staticip.ipaddress = mg_json_get_long(body, "$.ipaddress", 0);
-  s_staticip = staticip;  // Save to the device flash, too
+
+
+  mg_json_get_bool(body, "$.enabled", &s_staticip.enabled);
+  char* ipaddr = mg_json_get_str(body, "$.ipaddress");
+  if (ipaddr != NULL) mg_snprintf(s_staticip.ipaddress, 16, "%s", ipaddr);
+  free(ipaddr);
+
   bool ok = true;
   mg_http_reply(c, 200, s_json_header,
                 "{%m:%s,%m:%m}",                          //
                 MG_ESC("status"), ok ? "true" : "false",  //
                 MG_ESC("message"), MG_ESC(ok ? "Success" : "Failed"));
+
 }
 
 
 static void handle_staticip_get(struct mg_connection *c) {
-  mg_http_reply(c, 200, s_json_header, "{%m:%s,%m:%hhu}",  //
+  mg_http_reply(c, 200, s_json_header, "{%m:%s,%m:\"%s\"}",  //
                 MG_ESC("enabled"), s_staticip.enabled ? "true" : "false",     //
                 MG_ESC("ipaddress"), s_staticip.ipaddress);
 }

@@ -260,7 +260,7 @@ function StaticIp({}) {
         text=${saveResult.message} close=${() => setSaveResult(null)} />`}
 
       <${Setting} title="Enabled" value=${staticip.enabled} setfn=${mksetfn('enabled')} type="switch" />
-      <${Setting} title="IPAddress" value=${staticip.ipaddress} setfn=${mksetfn('ipaddress')} type="number" addonLeft="192.168.0." disabled=${!staticip.enabled} />
+      <${Setting} title="IPAddress" value=${staticip.ipaddress} setfn=${mksetfn('ipaddress')} type="text" disabled=${!staticip.enabled} />
       <div class="mb-1 mt-3 flex place-content-end"><${Button} icon=${Icons.save} onclick=${onsave} title="Save Settings" /><//>
     <//>
   <//>
